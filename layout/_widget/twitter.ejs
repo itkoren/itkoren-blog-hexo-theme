@@ -1,0 +1,42 @@
+<% if (theme.widget_twitter) { %>
+<div class="widget-wrap">
+    <h3 class="widget-title">Tweets</h3>
+    <div class="widget">
+        <a class="twitter-timeline"
+           href="<%- theme.widget_twitter.href %>"
+           data-widget-id="<%- theme.widget_twitter.id %>">
+            by @itkoren
+        </a>
+
+        <% if (theme.widget_twitter.custom) { %>
+        <div id="container-<%- theme.widget_twitter.id %>"></div>
+        <%- js('js/twitterFetcher') %>
+        <script type="text/javascript">
+            (function() {
+                var config = {
+                    "id": "<%- theme.widget_twitter.id %>",
+                    "domId": "container-<%- theme.widget_twitter.id %>",
+                    "maxTweets": 5,
+                    "enableLinks": true,
+                    "showUser": true,
+                    "showTime": true,
+                    "dateFunction": dateFormatter,
+                    "showRetweet": true
+                };
+                twitterFetcher.fetch(config);
+
+                function dateFormatter(date) {
+                    return date.toTimeString();
+                }
+            })();
+        </script>
+        <% } else { %>
+        <script type="text/javascript">
+            !function(d,s,id){
+                var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}
+            }(document,"script","twitter-wjs");
+        </script>
+        <% } %>
+        <% } %>
+    </div>
+</div>
