@@ -15,6 +15,9 @@ social:
 # Content
 excerpt_link: Read More
 fancybox: true
+swipe: true
+auto_load: -1
+
 
 # Sidebar
 sidebar: right

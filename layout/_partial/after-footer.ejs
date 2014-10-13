@@ -16,6 +16,8 @@
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
+<%- partial('jumly') %>
+
 <% if (theme.fancybox){ %>
   <%- css('fancybox/jquery.fancybox') %>
   <%- js('fancybox/jquery.fancybox.pack') %>
@@ -23,18 +25,60 @@
 
 <%- js('js/script') %>
 
+<% if (theme.swipe){ %>
+    <%- js('touch/jquery.touchSwipe.min') %>
+    <%- js('js/swipeNavigation') %>
+<% } %>
+
+<% if (theme.auto_load && 0 < theme.auto_load || 0 > theme.auto_load) { %>
+    <%- js('scroll/jquery.infinitescroll.min') %>
+
+<script type="text/javascript">
+(function(jQuery, undefined) {
+    jQuery(document).ready(function() {
+        var maxPage = <%= theme.auto_load %>;
+
+        if (0 < maxPage) {
+            var lastPage = jQuery("a.page-number:last").text();
+            lastPage = !isNaN(lastPage) && parseInt(lastPage, 10) - 1;
+
+            if (0 < lastPage && 1 < jQuery("a.page-number").length) {
+                maxPage = Math.min(maxPage, lastPage);
+            }
+        }
+        else if (0 > maxPage) {
+            maxPage = void 0;
+        }
+
+        if (jQuery("nav#page-nav").length && (1 < maxPage || "undefined" === typeof(maxPage))) {
+            jQuery("section#main").infinitescroll({
+                navSelector: "nav#page-nav",
+                // selector for the paged navigation (it will be hidden)
+                nextSelector: "#page-nav a[rel=\"next\"]",
+                // selector for the NEXT link (to page 2)
+                itemSelector: "section#main article",
+                // selector for all items you'll retrieve
+                maxPage: maxPage
+                // to manually control maximum page
+            });
+        }
+    });
+})(jQuery);
+</script>
+<% } %>
+
 <script type="text/javascript">
     $(window).scroll(function() {
-
         if($(this).scrollTop() > 400) {
-            $('.scroll-top').fadeIn(200);
-        } else {
-            $('.scroll-top').fadeOut(200);
+            $(".scroll-top").fadeIn(200);
+        }
+        else {
+            $(".scroll-top").fadeOut(200);
         }
     });
 
-    $('.scroll-top').bind('click', function(e) {
+    $(".scroll-top").bind("click", function(e) {
         e.preventDefault();
-        $('body,html').animate({scrollTop:0},200);
+        $("body,html").animate({ scrollTop: 0 }, 200);
     });
 </script>

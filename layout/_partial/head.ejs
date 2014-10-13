@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
+    <meta charset="utf-8">
+  <% if (page.description){ %>
+    <meta name="description" content="<%= page.description %>">
+  <% } else if (page.content){ %>
+    <%- auto_keyword_desc(page.content) %>
+  <% } else if (config.description){ %>
+    <meta name="description" content="<%= config.description %>">
+  <% } %>
   <%
   var title = page.title;
 
